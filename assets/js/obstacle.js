@@ -4,11 +4,11 @@ class Obstacle {
       this.ctx = ctx;
 
       this.vehicleImages = [
-        { src: "car.png", w: 200, h: 200 },
-        { src: "truck.png", w: 400, h: 480 },
-        { src: "moto.png", w: 190, h: 170 },
+        { src: "car.png", w: 140, h: 220 },
+        { src: "truck.png", w: 250, h: 580 },
+        { src: "moto.png", w: 100, h: 160 },
         { src: "maseratti.png", w: 140, h: 220 },
-        { src: "mini-truck.png", w: 320, h: 300 }
+        { src: "mini-truck.png", w: 150, h: 260 }
       ];
 
       // Seleccionar aleatoriamente un vehículo y sus dimensiones

@@ -7,8 +7,8 @@ class Car {
         this.img = new Image();
         this.img.src = 'assets/images/moto.png';
 
-        this.w = 190;
-        this.h = 170;
+        this.w = 100;
+        this.h = 160;
 
         this.img.onload = () => {
             this.x = this.ctx.canvas.width / 2 - this.w / 2;  // Centrar el coche horizontalmente
@@ -95,9 +95,9 @@ class Car {
     }
 
     collides(el) {
-        const colX = el.x <= this.x + this.w && el.x + el.w >= this.x;
-        const colY = el.y <= this.y + this.h && el.y + el.h >= this.y;
-    
+        const margin = 30; 
+        const colX = el.x <= (this.x + this.w + margin) && (el.x + el.w - margin) >= this.x;
+        const colY = el.y <= (this.y + this.h + margin) && (el.y + el.h - margin) >= this.y;
         return colX && colY;
     }
 
