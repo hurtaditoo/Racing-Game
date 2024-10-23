@@ -3,25 +3,29 @@ class Game {
     constructor(ctx) {
         this.ctx = ctx;
 
-        this.car = new Car(ctx);
+        this.car = new Car(ctx, 0);
 
         this.background = new Background(ctx);
 
         this.obstacles = [];
 
-        this.calzadaWidth = this.ctx.canvas.width * 0.62; 
+        this.calzadaWidth = this.ctx.canvas.width * 0.6; 
         this.calzadaOffset = (this.ctx.canvas.width - this.calzadaWidth) / 2; 
 
-
         this.interval = null;
+
+        this.tick = 0;
+
+        this.isBlinking = false; 
+        this.blinkDuration = 300; 
+        this.blinkInterval = 100; 
+        this.blinkStartTime = null;
 
         this.setListeners();
 
     }
 
     start() {
-        let tick = 0;
-
         this.interval = setInterval(() => {
             
             this.clear();
@@ -30,14 +34,11 @@ class Game {
 
             this.draw();
 
+            this.addObstacle();
+            
             this.checkCollisions();
 
-            tick++; // Aumenta el contador tick
-
-            if (tick >= 200) {  
-                this.addObstacle();
-                tick = 0;
-            }
+            this.tick++; // Aumenta el contador tick
 
         }, 1000 / 60);
     }
@@ -46,14 +47,25 @@ class Game {
 
         this.obstacles.forEach((obstacle) => {
           if (this.car.collides(obstacle)) {
-            this.gameOver();
-          }
+            this.car.loseLive();
+            this.startBlinking(); 
+        }
         });
 
         if (this.car.isOffRoad(this.calzadaOffset, this.calzadaWidth)) {
+            this.car.loseLive(); 
+            this.startBlinking();
+        }
+
+        if (this.car.lives === 0) {
             this.gameOver();
         }
 
+    }
+
+    startBlinking() {
+        this.isBlinking = true; 
+        this.blinkStartTime = Date.now(); 
     }
 
     gameOver() {
@@ -63,8 +75,8 @@ class Game {
         gameOverLogo.src = 'assets/images/game-over.png';
     
         gameOverLogo.onload = () => {
-          const desiredWidth = 700; // Establece el ancho deseado
-          const desiredHeight = 400; // Establece la altura deseada
+          const desiredWidth = 700; 
+          const desiredHeight = 400;
           
           const centerX = (this.ctx.canvas.width - desiredWidth) / 2;
           const centerY = (this.ctx.canvas.height - desiredHeight) / 2;
@@ -74,14 +86,20 @@ class Game {
     }
 
     addObstacle() {    
-        const newObstacle = new Obstacle(this.ctx);
-        
-        // Posicionar los obstáculos aleatoriamente dentro de los límites de la calzada
-        newObstacle.x = Math.random() * (this.calzadaWidth - newObstacle.w) + this.calzadaOffset;
-        newObstacle.y = -newObstacle.h; // Empieza por arriba de la pantalla
 
-        this.obstacles.push(newObstacle);
-        this.obstacles = this.obstacles.filter((e) => e.y < this.ctx.canvas.height);
+        if (this.tick >= 200) {  
+            this.tick = 0;
+
+            const newObstacle = new Obstacle(this.ctx);
+        
+            // Posicionar los obstáculos aleatoriamente dentro de los límites de la calzada
+            newObstacle.x = Math.random() * (this.calzadaWidth - newObstacle.obstacleWidth) + this.calzadaOffset;
+            newObstacle.y = -newObstacle.obstacleHeight; // Empieza por arriba de la pantalla
+    
+            this.obstacles.push(newObstacle);
+            this.obstacles = this.obstacles.filter((e) => e.y < this.ctx.canvas.height);    
+        }
+           
     }
 
     pause() {
@@ -91,7 +109,23 @@ class Game {
     draw() {    
         this.background.draw();
         this.obstacles.forEach((e) => e.draw());
-        this.car.draw();
+
+        if (this.isBlinking) {
+            const timeElapsed = Date.now() - this.blinkStartTime;
+    
+            if (timeElapsed < this.blinkDuration) {
+                if (Math.floor(timeElapsed / this.blinkInterval) % 2 === 0) {
+                    this.car.draw(); 
+                }
+            } 
+            else {
+                this.isBlinking = false; 
+                this.car.draw(); 
+            }
+        } 
+        else {
+            this.car.draw();
+        }
     }
 
     move() {
