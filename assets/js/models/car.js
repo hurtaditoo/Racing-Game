@@ -150,4 +150,9 @@ class Car {
         return this.x < calzadaOffset || this.x + this.carWidth > calzadaOffset + calzadaWidth;
     }
 
+    resetPosition() {
+        this.x = this.ctx.canvas.width / 2 - this.carWidth / 2;  
+        this.y = this.ctx.canvas.height - this.carHeight;  
+    }
+
 }

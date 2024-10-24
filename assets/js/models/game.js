@@ -45,16 +45,19 @@ class Game {
 
     checkCollisions() {
 
-        this.obstacles.forEach((obstacle) => {
-          if (this.car.collides(obstacle)) {
-            this.car.loseLive();
-            this.startBlinking(); 
-        }
+        this.obstacles = this.obstacles.filter((obstacle) => {
+            if (this.car.collides(obstacle)) {
+                this.car.loseLive();  
+                this.startBlinking(); 
+                return false;  // Elimina el obstáculo si hay colisión
+            }
+            return true; // Mantiene el obstáculo si no hay colisión
         });
 
         if (this.car.isOffRoad(this.calzadaOffset, this.calzadaWidth)) {
             this.car.loseLive(); 
             this.startBlinking();
+            this.car.resetPosition();
         }
 
         if (this.car.lives === 0) {
