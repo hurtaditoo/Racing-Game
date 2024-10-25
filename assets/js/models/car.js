@@ -19,12 +19,12 @@ class Car {
 
         this.vx = 0;   
         this.vy = 0;
-
+        
         this.isNitroActive = false;
-        this.nitroDuration = 200; 
+        this.nitroDuration = 300; 
         this.nitroSpeed = 35;  
 
-        this.lives = 3;
+        this.lives = 4;
         this.heartImg = new Image();
         this.heartImg.src = 'assets/images/lives.png';
 
@@ -38,6 +38,7 @@ class Car {
             setTimeout(() => {
                 this.isNitroActive = false;
                 this.vy = 0; 
+ 
             }, this.nitroDuration);
         }
     }
@@ -87,15 +88,15 @@ class Car {
         const heartX = 25;  
         const heartY = 25;  
 
-        for (let i = 0; i < this.lives; i++) {
+        for (let i = 0; i < this.lives - 1; i++) {
             this.ctx.drawImage(
                 this.heartImg,
                 heartX + i * (heartWidth + 30),  // 5 para poner distancia entre los corazones 
                 heartY,
                 heartWidth,
                 heartHeight
-        );
-    }
+            );
+        }
 
     }
 

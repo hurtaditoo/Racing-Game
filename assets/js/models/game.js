@@ -7,6 +7,10 @@ class Game {
 
         this.background = new Background(ctx);
 
+        this.level = 1;
+        this.startTime = Date.now();
+        this.levelDuration = 60000; // 1 min en ms
+
         this.obstacles = [];
 
         this.calzadaWidth = this.ctx.canvas.width * 0.6; 
@@ -17,15 +21,22 @@ class Game {
         this.tick = 0;
 
         this.isBlinking = false; 
-        this.blinkDuration = 300; 
+        this.blinkDuration = 400; 
         this.blinkInterval = 100; 
         this.blinkStartTime = null;
 
+        this.currentVehicleIndex = 0; 
+
         this.setListeners();
+
+        this.audio = new Audio("assets/audio/car-theme.mp3");
+        this.audio.volume = 0.08;
 
     }
 
     start() {
+        this.audio.play();
+
         this.interval = setInterval(() => {
             
             this.clear();
@@ -38,9 +49,55 @@ class Game {
             
             this.checkCollisions();
 
+            this.checkLevelChange();
+
             this.tick++; // Aumenta el contador tick
 
         }, 1000 / 60);
+    }
+
+    checkLevelChange() {
+        const currentTime = Date.now();
+
+        if (currentTime - this.startTime >= this.levelDuration && this.car.lives >= 0) {
+            this.level++;
+            this.startTime = currentTime;  
+            this.changeCar();  
+        }
+    }
+
+    changeCar() {
+        if (this.audio) {
+            this.audio.pause();
+            this.audio.currentTime = 0; // Reinicia el audio
+        }
+
+        this.currentVehicleIndex++;
+
+        if (this.currentVehicleIndex >= VEHICLE_IMAGES.length) {
+            this.endGameWinning();
+        }
+
+        this.car = new Car(this.ctx, this.currentVehicleIndex);
+
+        this.audio.play();
+    }
+
+    endGameWinning() {
+        this.pause();
+
+        const winningLogo = new Image();
+        winningLogo.src = 'assets/images/win.png';
+    
+        winningLogo.onload = () => {
+            const desiredWidth = 600; 
+            const desiredHeight = 500;
+            
+            const centerX = (this.ctx.canvas.width - desiredWidth) / 2;
+            const centerY = (this.ctx.canvas.height - desiredHeight) / 2;
+            
+            this.ctx.drawImage(winningLogo, centerX, centerY, desiredWidth, desiredHeight);
+        }
     }
 
     checkCollisions() {
@@ -89,7 +146,6 @@ class Game {
     }
 
     addObstacle() {    
-
         if (this.tick >= 200) {  
             this.tick = 0;
 
@@ -101,11 +157,11 @@ class Game {
     
             this.obstacles.push(newObstacle);
             this.obstacles = this.obstacles.filter((e) => e.y < this.ctx.canvas.height);    
-        }
-           
+        }      
     }
 
     pause() {
+        this.audio.pause();
         clearInterval(this.interval);   // Detiene el bucle del juego limpiando el intervalo
     }
 
