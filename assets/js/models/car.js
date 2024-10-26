@@ -96,14 +96,14 @@ class Car {
         );
 
         const heartWidth = 40;  
-        const heartHeight = 30;  
+        const heartHeight = 35;  
         const heartX = 25;  
-        const heartY = 25;  
+        const heartY = 20;  
 
         for (let i = 0; i < this.lives - 1; i++) {
             this.ctx.drawImage(
                 this.heartImg,
-                heartX + i * (heartWidth + 30),  // 5 para poner distancia entre los corazones 
+                heartX + i * (heartWidth + 30),  // 30-25=5 para poner distancia entre los corazones 
                 heartY,
                 heartWidth,
                 heartHeight

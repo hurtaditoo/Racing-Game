@@ -1,3 +1,8 @@
 canvas {   
     border: 1px solid black;
 }
+
+.button-container {
+    cursor: pointer;
+    z-index: 10; /* Asegura que esté por encima del canvas */
+}

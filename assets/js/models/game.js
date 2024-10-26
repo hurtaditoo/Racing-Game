@@ -115,6 +115,10 @@ class Game {
     endGameWinning() {
         this.pause();
 
+        const playPauseBtn = document.getElementById('play-pauseBtn');
+        playPauseBtn.style.pointerEvents = 'none'; // Desactiva el botón
+        playPauseBtn.style.opacity = '0.5';
+
         const winningLogo = new Image();
         winningLogo.src = 'assets/images/win.png';
     
@@ -160,6 +164,10 @@ class Game {
     gameOver() {
         this.pause();
 
+        const playPauseBtn = document.getElementById('play-pauseBtn');
+        playPauseBtn.style.pointerEvents = 'none'; // Desactiva el botón
+        playPauseBtn.style.opacity = '0.5';
+
         const gameOverLogo = new Image();
         gameOverLogo.src = 'assets/images/game-over.png';
     
@@ -172,6 +180,7 @@ class Game {
           
           this.ctx.drawImage(gameOverLogo, centerX, centerY, desiredWidth, desiredHeight);
         };
+
     }
 
     addObstacle() {    

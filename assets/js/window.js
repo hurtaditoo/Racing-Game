@@ -7,5 +7,39 @@ window.addEventListener('DOMContentLoaded', () => {
 
     game.start();
 
+    const playPauseBtn  = document.getElementById('play-pauseBtn');
+    const pauseIcon = document.getElementById('pause-logo');
+    const playIcon = document.getElementById('play-logo');
+    let isPaused = false;
+    let isGameOver = false;
+
+    playPauseBtn.addEventListener('click', () => {
+        if (isGameOver) return;
+
+        if (isPaused) {
+            game.start(); 
+            pauseIcon.style.display = 'block';
+            playIcon.style.display = 'none';
+        } 
+        else {
+            game.pause(); 
+            pauseIcon.style.display = 'none';
+            playIcon.style.display = 'block';
+        }
+        isPaused = !isPaused;
+    });
+
+    const playPauseBtnContainer = document.querySelector('.button-container');
+
+    const adjustButtonPosition = () => {
+        const rightEdge = game.calzadaOffset + game.calzadaWidth + 200; 
+
+        playPauseBtnContainer.style.position = 'absolute';
+        playPauseBtnContainer.style.top = `20px`;
+        playPauseBtnContainer.style.left = `${rightEdge}px`;
+    };
+
+    adjustButtonPosition();
+
 });
 
