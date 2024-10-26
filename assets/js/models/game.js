@@ -2,9 +2,7 @@ class Game {
     
     constructor(ctx) {
         this.ctx = ctx;
-
         this.car = new Car(ctx, 0);
-
         this.background = new Background(ctx);
 
         this.level = 1;
@@ -12,12 +10,10 @@ class Game {
         this.levelDuration = 60000; // 1 min en ms
 
         this.obstacles = [];
-
         this.calzadaWidth = this.ctx.canvas.width * 0.6; 
         this.calzadaOffset = (this.ctx.canvas.width - this.calzadaWidth) / 2; 
 
         this.interval = null;
-
         this.tick = 0;
 
         this.isBlinking = false; 
@@ -27,8 +23,6 @@ class Game {
 
         this.currentVehicleIndex = 0; 
 
-        this.setListeners();
-
         this.audio = new Audio("assets/audio/car-theme.mp3");
         this.audio.volume = 0.05;
 
@@ -37,10 +31,18 @@ class Game {
         this.levelUpAudio = new Audio("assets/audio/level-up.mp3");
         this.levelUpAudio.volume = 0.5;
 
+        this.isGameOver = false;
+        this.isPaused = false;
+
+        this.restartBtn = document.getElementById('restartBtn');
+        this.playPauseBtn = document.getElementById('play-pauseBtn');
+
+        this.setListeners();
+
     }
 
     start() {
-        this.audio.play();
+        this.audio.play();        
 
         this.interval = setInterval(() => {
             
@@ -54,6 +56,8 @@ class Game {
             
             this.checkCollisions();
 
+            this.clearObstacles();
+
             this.checkLevelChange();
 
             this.tick++; // Aumenta el contador tick
@@ -61,6 +65,21 @@ class Game {
             this.increaseSpeed();
 
         }, 1000 / 60);
+    }
+
+    reset() {
+        this.startTime = Date.now(); 
+        this.obstacles = []; 
+        this.tick = 0; 
+        this.audio.currentTime = 0; 
+        this.isGameOver = false;
+        this.start();
+    }
+
+    restartBtnMethod() {
+        if (this.isGameOver) {
+            this.reset();
+        }
     }
 
     increaseSpeed() {
@@ -100,9 +119,7 @@ class Game {
 
         if (this.currentVehicleIndex >= VEHICLE_IMAGES.length) {
             this.endGameWinning();
-        }
-
-        else {
+        } else {
             this.car = new Car(this.ctx, this.currentVehicleIndex);
             this.audio.play();
 
@@ -115,9 +132,8 @@ class Game {
     endGameWinning() {
         this.pause();
 
-        const playPauseBtn = document.getElementById('play-pauseBtn');
-        playPauseBtn.style.pointerEvents = 'none'; // Desactiva el botón
-        playPauseBtn.style.opacity = '0.5';
+        this.playPauseBtn.style.pointerEvents = 'none'; // Desactiva el botón
+        this.playPauseBtn.style.opacity = '0.5';
 
         const winningLogo = new Image();
         winningLogo.src = 'assets/images/win.png';
@@ -164,9 +180,11 @@ class Game {
     gameOver() {
         this.pause();
 
-        const playPauseBtn = document.getElementById('play-pauseBtn');
-        playPauseBtn.style.pointerEvents = 'none'; // Desactiva el botón
-        playPauseBtn.style.opacity = '0.5';
+        this.playPauseBtn.style.pointerEvents = 'none'; // Desactiva el botón
+        this.playPauseBtn.style.opacity = '0.5';
+
+        this.isGameOver = true;
+        this.restartBtn.style.display = 'block'; // Muestre el botón de reinicio al inicio
 
         const gameOverLogo = new Image();
         gameOverLogo.src = 'assets/images/game-over.png';
@@ -194,14 +212,45 @@ class Game {
             newObstacle.y = -newObstacle.obstacleHeight; // Empieza por arriba de la pantalla
     
             this.obstacles.push(newObstacle);
-            this.obstacles = this.obstacles.filter((e) => e.y < this.ctx.canvas.height);    
         }      
     }
 
     pause() {
         this.audio.pause();
-        clearInterval(this.interval);   // Detiene el bucle del juego limpiando el intervalo
+        clearInterval(this.interval);   
     }
+
+    playPauseBtnMethod() {  // Funcionamiento botón
+        const pauseIcon = document.getElementById('pause-logo');
+        const playIcon = document.getElementById('play-logo');
+        
+        if (this.isPaused) {
+            this.start(); 
+            pauseIcon.style.display = 'block';
+            playIcon.style.display = 'none';
+        } 
+        else {
+            this.pause(); 
+            pauseIcon.style.display = 'none';
+            playIcon.style.display = 'block';
+        }
+        this.isPaused = !this.isPaused;
+    }
+
+    adjustButtonPosition() {    // Posición del botón en la road
+        const playPauseBtnContainer = document.querySelector('.button-container');
+        const restartBtnContainer = document.querySelector('.restartBtn-container');
+
+        const rightEdge = this.calzadaOffset + this.calzadaWidth + 194; 
+
+        playPauseBtnContainer.style.position = 'absolute';
+        playPauseBtnContainer.style.top = `24px`;
+        playPauseBtnContainer.style.left = `${rightEdge}px`;
+
+        restartBtnContainer.style.position = 'absolute';
+        restartBtnContainer.style.top = `25px`;
+        restartBtnContainer.style.left = `${rightEdge - 54}px`;
+    };
 
     draw() {    
         this.background.draw();
@@ -227,8 +276,12 @@ class Game {
 
     move() {
         this.background.move();
-        this.obstacles.forEach((e) => e.move());
+        this.obstacles.forEach((e) => e.move());    
         this.car.move();
+    }
+
+    clearObstacles() {
+        this.obstacles = this.obstacles.filter((obstacle) => obstacle.isVisible());
     }
 
     clear() {   // necesario para poder dibujar la siguiente "imagen" del juego y evitar que se vean "rastros" de los elementos anteriores
