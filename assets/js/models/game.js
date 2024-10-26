@@ -30,7 +30,12 @@ class Game {
         this.setListeners();
 
         this.audio = new Audio("assets/audio/car-theme.mp3");
-        this.audio.volume = 0.08;
+        this.audio.volume = 0.05;
+
+        this.lastTimeIncreased = Date.now();
+
+        this.levelUpAudio = new Audio("assets/audio/level-up.mp3");
+        this.levelUpAudio.volume = 0.5;
 
     }
 
@@ -53,7 +58,21 @@ class Game {
 
             this.tick++; // Aumenta el contador tick
 
+            this.increaseSpeed();
+
         }, 1000 / 60);
+    }
+
+    increaseSpeed() {
+        const currentTime = Date.now();
+        const betweenChanges = currentTime - this.lastTimeIncreased;
+
+        if (betweenChanges >= 15000) {
+            this.background.vy += 15;
+            this.car.currentSpeed += 15; 
+
+            this.lastTimeIncreased = currentTime;
+        }
     }
 
     checkLevelChange() {
@@ -63,6 +82,11 @@ class Game {
             this.level++;
             this.startTime = currentTime;  
             this.changeCar();  
+
+            if (this.level < VEHICLE_IMAGES.length) {
+                this.levelUpAudio.currentTime = 0;
+                this.levelUpAudio.play();
+            }
         }
     }
 
@@ -78,9 +102,14 @@ class Game {
             this.endGameWinning();
         }
 
-        this.car = new Car(this.ctx, this.currentVehicleIndex);
+        else {
+            this.car = new Car(this.ctx, this.currentVehicleIndex);
+            this.audio.play();
 
-        this.audio.play();
+            this.background.vy = 25;  // Initial speed of the background
+            this.car.currentSpeed = 20; // Initial speed of the car
+            this.lastTimeIncreased = Date.now();
+        }
     }
 
     endGameWinning() {

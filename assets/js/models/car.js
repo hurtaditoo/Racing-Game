@@ -9,7 +9,7 @@ class Car {
         this.img = new Image();
         this.img.src = `assets/images/${vehicle.src}`;
 
-        this.carWidth= vehicle.w;
+        this.carWidth = vehicle.w;
         this.carHeight = vehicle.h;
 
         this.img.onload = () => {
@@ -19,6 +19,8 @@ class Car {
 
         this.vx = 0;   
         this.vy = 0;
+
+        this.currentSpeed = 20;
         
         this.isNitroActive = false;
         this.nitroDuration = 300; 
@@ -27,6 +29,11 @@ class Car {
         this.lives = 4;
         this.heartImg = new Image();
         this.heartImg.src = 'assets/images/lives.png';
+
+        this.lastLifeSound = new Audio("assets/audio/game-over.mp3"); 
+        this.lastLifeSound.volume = 0.5;
+        this.loseLiveSound = new Audio("assets/audio/life-lost.mp3"); 
+        this.loseLiveSound.volume = 0.5;
 
     }
 
@@ -44,8 +51,14 @@ class Car {
     }
 
     loseLive() {
-        if (this.lives >= 0) {
-            this.lives--;  
+        if (this.lives > 0) {
+            if (this.lives === 1) { 
+                this.lastLifeSound.play();
+            } 
+            else {
+                this.loseLiveSound.play();
+            }
+            this.lives--;
         }
     }
 
@@ -74,7 +87,6 @@ class Car {
     }
 
     draw() {
-
         this.ctx.drawImage(
             this.img,
             this.x,
@@ -97,17 +109,16 @@ class Car {
                 heartHeight
             );
         }
-
     }
 
     onKeyDown(code) {
         switch (code) {
             case KEY_UP:
-                this.vy = 20;
+                this.vy = this.currentSpeed;
                 break;
 
             case KEY_DOWN:
-                this.vy = -20;
+                this.vy = -this.currentSpeed;
                 break;
             
             case KEY_RIGHT:

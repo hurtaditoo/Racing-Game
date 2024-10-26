@@ -9,7 +9,7 @@ class Background {
         this.w = this.ctx.canvas.width; 
         this.h = this.ctx.canvas.height;  
 
-        this.vy = 15;
+        this.vy = 25;
 
         this.img = new Image(); 
         this.img.src = "assets/images/road.jpg";
@@ -35,4 +35,4 @@ class Background {
         }
     }
 
-}
+}                                                         
