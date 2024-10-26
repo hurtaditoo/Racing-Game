@@ -69,10 +69,13 @@ class Game {
 
     reset() {
         this.startTime = Date.now(); 
+        this.lastTimeIncreased = Date.now();
+
         this.obstacles = []; 
         this.tick = 0; 
         this.audio.currentTime = 0; 
         this.isGameOver = false;
+        
         this.start();
     }
 
