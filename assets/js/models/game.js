@@ -31,7 +31,6 @@ class Game {
         this.levelUpAudio = new Audio("assets/audio/level-up.mp3");
         this.levelUpAudio.volume = 0.5;
 
-        this.isGameOver = false;
         this.isPaused = false;
 
         this.restartBtn = document.getElementById('restartBtn');
@@ -45,6 +44,8 @@ class Game {
         this.audio.play();        
 
         this.interval = setInterval(() => {
+            
+            this.restartBtn.style.display = 'none';
             
             this.clear();
 
@@ -68,21 +69,26 @@ class Game {
     }
 
     reset() {
+        clearInterval(this.interval);
+        this.car = new Car(this.ctx, 0);
+        this.background = new Background(this.ctx);
+        this.level = 1;
+
         this.startTime = Date.now(); 
         this.lastTimeIncreased = Date.now();
 
         this.obstacles = []; 
         this.tick = 0; 
         this.audio.currentTime = 0; 
-        this.isGameOver = false;
+        this.currentVehicleIndex = 0;
+
         
+
         this.start();
     }
 
-    restartBtnMethod() {
-        if (this.isGameOver) {
-            this.reset();
-        }
+    restartBtnMethod() {  
+        this.reset();
     }
 
     increaseSpeed() {
@@ -299,6 +305,8 @@ class Game {
         document.addEventListener('keyup', (event) => {
             this.car.onKeyUp(event.keyCode);
         });
+
+        this.restartBtn.addEventListener('click', () => this.restartBtnMethod());
     }
 
 }
