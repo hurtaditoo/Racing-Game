@@ -82,7 +82,11 @@ class Game {
         this.audio.currentTime = 0; 
         this.currentVehicleIndex = 0;
 
-        
+        // this.isPaused = false; 
+        // const pauseIcon = document.getElementById('pause-logo');
+        // const playIcon = document.getElementById('play-logo');
+        // pauseIcon.style.display = 'block';
+        // playIcon.style.display = 'none';
 
         this.start();
     }

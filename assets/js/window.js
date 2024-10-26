@@ -8,16 +8,11 @@ window.addEventListener('DOMContentLoaded', () => {
     game.start();
 
     const playPauseBtn  = document.getElementById('play-pauseBtn');
-    const restartBtn = document.getElementById('restartBtn');
 
     playPauseBtn.addEventListener('click', () => {
         game.playPauseBtnMethod();
     });
-    
-    restartBtn.addEventListener('click', () => {
-        game.restartBtnMethod();
-    });
-    
+
     game.adjustButtonPosition();
 
 });
