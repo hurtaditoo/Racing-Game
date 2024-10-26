@@ -82,12 +82,6 @@ class Game {
         this.audio.currentTime = 0; 
         this.currentVehicleIndex = 0;
 
-        // this.isPaused = false; 
-        // const pauseIcon = document.getElementById('pause-logo');
-        // const playIcon = document.getElementById('play-logo');
-        // pauseIcon.style.display = 'block';
-        // playIcon.style.display = 'none';
-
         this.start();
     }
 
@@ -197,7 +191,7 @@ class Game {
         this.playPauseBtn.style.opacity = '0.5';
 
         this.isGameOver = true;
-        this.restartBtn.style.display = 'block'; // Muestre el botón de reinicio al inicio
+        this.restartBtn.style.display = 'block'; // Muestra el botón de reinicio al inicio
 
         const gameOverLogo = new Image();
         gameOverLogo.src = 'assets/images/game-over.png';
