@@ -26,16 +26,6 @@ html, body {
     align-items: center;
 }
 
-/* .ranking-container {
-    position: absolute; 
-    top: 80px; 
-    left: 50%; 
-    transform: translateX(-50%); 
-    text-align: center; 
-    color: white; 
-    font-size: 1.2em;
-} */
-
 .start-screen {
     position: fixed;
     display: flex;
@@ -53,7 +43,7 @@ html, body {
     top: 76.1%;  
     left: 50%; 
     transform: translate(-50%, -50%);
-    padding: 17px 66px;
+    padding: 16px 63px;
     font-size: 30px;
     background-color: #f39c12;
     color: white;
@@ -65,11 +55,11 @@ html, body {
 
 .rankingBtn {
     position: absolute;
-    top: 10%;  
-    left: 20%; 
+    top: 83%;  
+    left: 71.5%; 
     transform: translate(-50%, -50%);
-    padding: 15px 30px;
-    font-size: 30px;
+    padding: 10px 16px;
+    font-size: 20px;
     background-color: #f39c12;
     color: white;
     border: none;
@@ -81,10 +71,10 @@ html, body {
 .controlsBtn {
     position: absolute;
     top: 83%;  
-    left: 32.55%; 
+    left: 28.5%; 
     transform: translate(-50%, -50%);
-    padding: 10px 8px;
-    font-size: 25px;
+    padding: 10px 16px;
+    font-size: 20px;
     background-color: #f39c12;
     color: white;
     border: none;
