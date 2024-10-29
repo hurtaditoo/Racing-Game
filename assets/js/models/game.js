@@ -6,6 +6,7 @@ class Game {
         this.background = new Background(ctx);
 
         this.level = 1;
+        this.score = 0;
         this.startTime = Date.now();
         this.levelDuration = 60000; // 1 min en ms
 
@@ -61,11 +62,17 @@ class Game {
 
             this.checkLevelChange();
 
+            this.updateScore();
+
             this.tick++; // Aumenta el contador tick
 
             this.increaseSpeed();
 
         }, 1000 / 60);
+    }
+
+    updateScore() {
+        this.score += 1; // Add points each frame for surviving
     }
 
     reset() {
@@ -110,6 +117,7 @@ class Game {
             this.level++;
             this.startTime = currentTime;  
             this.changeCar();  
+            this.score += 100;
 
             if (this.level < VEHICLE_IMAGES.length) {
                 this.levelUpAudio.currentTime = 0;
@@ -211,6 +219,10 @@ class Game {
           this.ctx.drawImage(gameOverLogo, centerX, centerY, desiredWidth, desiredHeight);
         };
 
+        // const finalScore = this.score;
+        // saveScore(finalScore);
+        // displayRankings();
+
     }
 
     addObstacle() {    
@@ -264,6 +276,12 @@ class Game {
         restartBtnContainer.style.left = `${rightEdge - 54}px`;
     };
 
+    drawScore() {
+        this.ctx.font = "30px Arial";
+        this.ctx.fillStyle = "black";
+        this.ctx.fillText(`Score: ${this.score}`, 25, this.background.h - 25); // Draw score on top-left
+    }
+
     draw() {    
         this.background.draw();
         this.obstacles.forEach((e) => e.draw());
@@ -284,6 +302,8 @@ class Game {
         else {
             this.car.draw();
         }
+
+        this.drawScore();
     }
 
     move() {
