@@ -218,7 +218,7 @@ class Game {
           this.ctx.drawImage(gameOverLogo, centerX, centerY, desiredWidth, desiredHeight);
         };
 
-        this.saveScore();
+        // this.saveScore();
         // this.displayRankings();
 
     }
@@ -263,14 +263,14 @@ class Game {
         const playPauseBtnContainer = document.querySelector('.button-container');
         const restartBtnContainer = document.querySelector('.restartBtn-container');
 
-        const rightEdge = this.calzadaOffset + this.calzadaWidth + 338; 
+        const rightEdge = this.ctx.canvas.width + 620; 
 
         playPauseBtnContainer.style.position = 'absolute';
-        playPauseBtnContainer.style.top = `25px`;
+        playPauseBtnContainer.style.top = `90px`;
         playPauseBtnContainer.style.left = `${rightEdge}px`;
 
         restartBtnContainer.style.position = 'absolute';
-        restartBtnContainer.style.top = `26px`;
+        restartBtnContainer.style.top = `90px`;
         restartBtnContainer.style.left = `${rightEdge - 47}px`;
     };
 
