@@ -7,7 +7,7 @@ class Game {
 
         this.level = 1;
         this.startTime = Date.now();
-        this.levelDuration = 60000; // 1 min en ms
+        this.levelDuration = 7000; // 1 min en ms
 
         this.obstacles = [];
         this.calzadaWidth = this.ctx.canvas.width * 0.6; 
@@ -82,6 +82,8 @@ class Game {
         this.audio.currentTime = 0; 
         this.currentVehicleIndex = 0;
 
+        this.playPauseBtn.style.pointerEvents = 'auto';
+        this.playPauseBtn.style.opacity = '1';
         this.start();
     }
 
@@ -96,7 +98,7 @@ class Game {
         if (betweenChanges >= 15000) {
             this.background.vy += 15;
             this.car.currentSpeed += 15; 
-
+            this.car.nitroSpeed += 10;
             this.lastTimeIncreased = currentTime;
         }
     }
@@ -127,7 +129,10 @@ class Game {
         if (this.currentVehicleIndex >= VEHICLE_IMAGES.length) {
             this.endGameWinning();
         } else {
+            const currentLives = this.car.lives;
+
             this.car = new Car(this.ctx, this.currentVehicleIndex);
+            this.car.lives = currentLives;
             this.audio.play();
 
             this.background.vy = 25;  // Initial speed of the background

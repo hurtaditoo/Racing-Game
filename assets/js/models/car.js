@@ -30,8 +30,8 @@ class Car {
         this.heartImg = new Image();
         this.heartImg.src = 'assets/images/lives.png';
 
-        this.lastLifeSound = new Audio("assets/audio/game-over.mp3"); 
-        this.lastLifeSound.volume = 0.5;
+        this.lastLiveSound = new Audio("assets/audio/game-over.mp3"); 
+        this.lastLiveSound.volume = 0.5;
         this.loseLiveSound = new Audio("assets/audio/life-lost.mp3"); 
         this.loseLiveSound.volume = 0.5;
 
@@ -53,7 +53,7 @@ class Car {
     loseLive() {
         if (this.lives > 0) {
             if (this.lives === 1) { 
-                this.lastLifeSound.play();
+                this.lastLiveSound.play();
             } 
             else {
                 this.loseLiveSound.play();
