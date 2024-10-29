@@ -5,7 +5,14 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const game = new Game(ctx); // toma el contexto ctx como argumento para que el juego sepa dónde dibujar sus elementos 
 
-    game.start();
+    const startScreen = document.getElementById('start-screen');
+    const startBtn = document.getElementById('startBtn');
+
+    startBtn.addEventListener('click', () => {
+        startScreen.style.display = 'none'; // Hide the start screen
+        canvas.style.display = 'block'; // Show the canvas
+        game.start();
+    });
 
     const playPauseBtn  = document.getElementById('play-pauseBtn');
 

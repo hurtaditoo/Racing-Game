@@ -62,17 +62,15 @@ class Game {
 
             this.checkLevelChange();
 
-            this.updateScore();
-
-            this.tick++; // Aumenta el contador tick
+            this.tick++; 
 
             this.increaseSpeed();
 
-        }, 1000 / 60);
-    }
+            if (this.tick % 50 === 0) {
+                this.score += 1;
+            }
 
-    updateScore() {
-        this.score += 1; // Add points each frame for surviving
+        }, 1000 / 60);
     }
 
     reset() {
@@ -219,9 +217,8 @@ class Game {
           this.ctx.drawImage(gameOverLogo, centerX, centerY, desiredWidth, desiredHeight);
         };
 
-        // const finalScore = this.score;
-        // saveScore(finalScore);
-        // displayRankings();
+        this.saveScore();
+        // this.displayRankings();
 
     }
 
@@ -265,20 +262,20 @@ class Game {
         const playPauseBtnContainer = document.querySelector('.button-container');
         const restartBtnContainer = document.querySelector('.restartBtn-container');
 
-        const rightEdge = this.calzadaOffset + this.calzadaWidth + 194; 
+        const rightEdge = this.calzadaOffset + this.calzadaWidth + 338; 
 
         playPauseBtnContainer.style.position = 'absolute';
-        playPauseBtnContainer.style.top = `24px`;
+        playPauseBtnContainer.style.top = `25px`;
         playPauseBtnContainer.style.left = `${rightEdge}px`;
 
         restartBtnContainer.style.position = 'absolute';
-        restartBtnContainer.style.top = `25px`;
-        restartBtnContainer.style.left = `${rightEdge - 54}px`;
+        restartBtnContainer.style.top = `26px`;
+        restartBtnContainer.style.left = `${rightEdge - 47}px`;
     };
 
     drawScore() {
-        this.ctx.font = "30px Arial";
-        this.ctx.fillStyle = "black";
+        this.ctx.font = "16px 'Press Start 2P'";
+        this.ctx.fillStyle = "white";
         this.ctx.fillText(`Score: ${this.score}`, 25, this.background.h - 25); // Draw score on top-left
     }
 
