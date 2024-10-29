@@ -4,7 +4,8 @@ This project is a **Racing Game** built with HTML, CSS, and JavaScript. The obje
 
 ## Demo
 Play the game here: [Racing Game Demo](https://hurtaditoo.github.io/Racing-Game/)
-It is recommended to change the screen zoom to 67%
+
+It is recommended to change the screen zoom to 67%.
 
 ## How to Play
 - Use **Arrow Keys** to control the car:
