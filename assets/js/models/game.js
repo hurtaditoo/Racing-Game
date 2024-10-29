@@ -25,12 +25,12 @@ class Game {
         this.currentVehicleIndex = 0; 
 
         this.audio = new Audio("assets/audio/car-theme.mp3");
-        this.audio.volume = 0.05;
+        this.audio.volume = 0.04;
 
         this.lastTimeIncreased = Date.now();
 
         this.levelUpAudio = new Audio("assets/audio/level-up.mp3");
-        this.levelUpAudio.volume = 0.5;
+        this.levelUpAudio.volume = 0.25;
 
         this.isPaused = false;
 
@@ -86,6 +86,7 @@ class Game {
         this.tick = 0; 
         this.audio.currentTime = 0; 
         this.currentVehicleIndex = 0;
+        this.score = 0;
 
         this.playPauseBtn.style.pointerEvents = 'auto';
         this.playPauseBtn.style.opacity = '1';

@@ -31,9 +31,9 @@ class Car {
         this.heartImg.src = 'assets/images/lives.png';
 
         this.lastLiveSound = new Audio("assets/audio/game-over.mp3"); 
-        this.lastLiveSound.volume = 0.5;
+        this.lastLiveSound.volume = 0.25;
         this.loseLiveSound = new Audio("assets/audio/life-lost.mp3"); 
-        this.loseLiveSound.volume = 0.5;
+        this.loseLiveSound.volume = 0.25;
 
     }
 
