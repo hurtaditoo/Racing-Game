@@ -7,7 +7,7 @@ class Game {
 
         this.level = 1;
         this.startTime = Date.now();
-        this.levelDuration = 7000; // 1 min en ms
+        this.levelDuration = 60000; // 1 min en ms
 
         this.obstacles = [];
         this.calzadaWidth = this.ctx.canvas.width * 0.6; 
