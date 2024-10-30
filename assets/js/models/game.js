@@ -163,7 +163,7 @@ class Game {
     endGameWinning() {
         this.pause();
 
-        this.playPauseBtn.style.pointerEvents = 'none'; // Desactivate the button
+        this.playPauseBtn.style.pointerEvents = 'none'; // Deactivate the button
         this.playPauseBtn.style.opacity = '0.5';
 
         const winningLogo = new Image();
@@ -211,7 +211,7 @@ class Game {
     gameOver() {
         this.pause();
 
-        this.playPauseBtn.style.pointerEvents = 'none'; // Desactivate the button
+        this.playPauseBtn.style.pointerEvents = 'none'; // Deactivate the button
         this.playPauseBtn.style.opacity = '0.5';
 
         this.isGameOver = true;
@@ -360,7 +360,7 @@ class Game {
         }
     }
 
-    setListeners() {    
+    setListeners() {
         document.addEventListener('keydown', (event) => {
             this.car.onKeyDown(event.keyCode);
         });

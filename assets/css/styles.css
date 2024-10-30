@@ -4,12 +4,12 @@ canvas {
 
 .button-container {
     cursor: pointer !important;
-    z-index: 10; /* Asegura que esté por encima del canvas */
+    z-index: 10; /* Makes sure that is above the canvas */
 }
 
 .restartBtn-container {
     cursor: pointer !important;
-    z-index: 10; /* Asegura que esté por encima del canvas */
+    z-index: 10; /* Makes sure that is above the canvas */
 }
 
 html, body {
