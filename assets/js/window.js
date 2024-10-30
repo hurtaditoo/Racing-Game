@@ -1,9 +1,9 @@
 window.addEventListener('DOMContentLoaded', () => {
 
-    const canvas = document.getElementById("canvas");   // Obtiene el elemento HTML con el id "canvas", que representa el lienzo (<canvas>) en la web. Es donde se dibujará el juego.
-    const ctx = canvas.getContext("2d");    // Con esto tenemos disponibles un monton de métodos para dibujar
+    const canvas = document.getElementById("canvas");   //  Gets the HTML element with id "canvas", which represents the canvas (<canvas>) on the web. It is where the game will be drawn.
+    const ctx = canvas.getContext("2d");
 
-    const game = new Game(ctx); // toma el contexto ctx como argumento para que el juego sepa dónde dibujar sus elementos 
+    const game = new Game(ctx); // take the context as an argument so the game knows where to draw the elements 
 
     const startScreen = document.getElementById('start-screen');
     const startBtn = document.getElementById('startBtn');

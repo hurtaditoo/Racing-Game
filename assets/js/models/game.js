@@ -7,11 +7,11 @@ class Game {
 
         this.level = 1;
         this.score = 0;
-        this.levelDuration = 30000; // 30s en ms
+        this.levelDuration = 30000; // 30s in ms
 
         this.obstacles = [];
-        this.calzadaWidth = this.ctx.canvas.width * 0.6; 
-        this.calzadaOffset = (this.ctx.canvas.width - this.calzadaWidth) / 2; 
+        this.roadWidth = this.ctx.canvas.width * 0.6; 
+        this.roadOffset = (this.ctx.canvas.width - this.roadWidth) / 2; 
 
         this.interval = null;
         this.tick = 0;
@@ -140,7 +140,7 @@ class Game {
     changeCar() {
         if (this.audio) {
             this.audio.pause();
-            this.audio.currentTime = 0; // Reinicia el audio
+            this.audio.currentTime = 0; // Restart the game
         }
 
         this.currentVehicleIndex++;
@@ -163,7 +163,7 @@ class Game {
     endGameWinning() {
         this.pause();
 
-        this.playPauseBtn.style.pointerEvents = 'none'; // Desactiva el botón
+        this.playPauseBtn.style.pointerEvents = 'none'; // Desactivate the button
         this.playPauseBtn.style.opacity = '0.5';
 
         const winningLogo = new Image();
@@ -186,12 +186,12 @@ class Game {
             if (this.car.collides(obstacle)) {
                 this.car.loseLive();  
                 this.startBlinking(); 
-                return false;  // Elimina el obstáculo si hay colisión
+                return false;  // In case of collision, delete the obstacle
             }
-            return true; // Mantiene el obstáculo si no hay colisión
+            return true; // Keep the obstacle in the array if not colliding
         });
 
-        if (this.car.isOffRoad(this.calzadaOffset, this.calzadaWidth)) {
+        if (this.car.isOffRoad(this.roadOffset, this.roadWidth)) {
             this.car.loseLive(); 
             this.startBlinking();
             this.car.resetPosition();
@@ -211,12 +211,11 @@ class Game {
     gameOver() {
         this.pause();
 
-        this.playPauseBtn.style.pointerEvents = 'none'; // Desactiva el botón
+        this.playPauseBtn.style.pointerEvents = 'none'; // Desactivate the button
         this.playPauseBtn.style.opacity = '0.5';
 
         this.isGameOver = true;
-        this.restartBtn.style.display = 'block'; // Muestra el botón de reinicio al inicio
-
+        this.restartBtn.style.display = 'block'; // Display the restart button when the game is over
         const gameOverLogo = new Image();
         gameOverLogo.src = 'assets/images/game-over.png';
     
@@ -240,9 +239,9 @@ class Game {
 
             const newObstacle = new Obstacle(this.ctx);
         
-            // Posicionar los obstáculos aleatoriamente dentro de los límites de la calzada
-            newObstacle.x = Math.random() * (this.calzadaWidth - newObstacle.obstacleWidth) + this.calzadaOffset;
-            newObstacle.y = -newObstacle.obstacleHeight; // Empieza por arriba de la pantalla
+            // Position the obstacle randomly on the road
+            newObstacle.x = Math.random() * (this.roadWidth - newObstacle.obstacleWidth) + this.roadOffset;
+            newObstacle.y = -newObstacle.obstacleHeight; // Start the obstacle from the top of the road
     
             this.obstacles.push(newObstacle);
         }      
@@ -253,7 +252,7 @@ class Game {
         clearInterval(this.interval);   
     }
 
-    playPauseBtnMethod() {  // Funcionamiento botón
+    playPauseBtnMethod() {  // Button function to pause/play the game
         const pauseIcon = document.getElementById('pause-logo');
         const playIcon = document.getElementById('play-logo');
         
@@ -270,11 +269,11 @@ class Game {
         this.isPaused = !this.isPaused;
     }
 
-    adjustButtonPosition() {    // Posición del botón en la road
+    adjustButtonPosition() {    // Position of the button in the canvas
         const playPauseBtnContainer = document.querySelector('.button-container');
         const restartBtnContainer = document.querySelector('.restartBtn-container');
 
-        const rightEdge = this.ctx.canvas.width + this.calzadaWidth + 63; 
+        const rightEdge = this.ctx.canvas.width + this.roadWidth + 63; 
 
         playPauseBtnContainer.style.position = 'absolute';
         playPauseBtnContainer.style.top = `94px`;
@@ -294,9 +293,9 @@ class Game {
     saveScore() {
         if (this.score > 10) {  
             this.arrayScores.push(this.score);
-            this.arrayScores.sort((a, b) => b - a);  // De mayor a menor
+            this.arrayScores.sort((a, b) => b - a);  // From highest to lowest
 
-            this.arrayScores = this.arrayScores.slice(0, 10);   // Por memoria, almacena solo los 10 más altos
+            this.arrayScores = this.arrayScores.slice(0, 10);   // Keep only the top 10 scores
             window.localStorage.setItem('scores', JSON.stringify(this.arrayScores));
         }
     }
@@ -337,8 +336,8 @@ class Game {
         this.obstacles = this.obstacles.filter((obstacle) => obstacle.isVisible());
     }
 
-    clear() {   // necesario para poder dibujar la siguiente "imagen" del juego y evitar que se vean "rastros" de los elementos anteriores
-        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+    clear() {   // Necessary to draw the next image of the game and avoid any memory leaks
+        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height); 
     }
 
     toggleControls() {

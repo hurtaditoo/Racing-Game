@@ -13,8 +13,8 @@ class Car {
         this.carHeight = vehicle.h;
 
         this.img.onload = () => {
-            this.x = this.ctx.canvas.width / 2 - this.carWidth / 2;  // Centrar el coche horizontalmente
-            this.y = this.ctx.canvas.height - this.carHeight;  // Posicionarlo en la parte inferior
+            this.x = this.ctx.canvas.width / 2 - this.carWidth / 2;  // So the car is centered horizontally
+            this.y = this.ctx.canvas.height - this.carHeight;  // Ubicates the car at the bottom of the canvas
         };
 
         this.vx = 0;   
@@ -38,7 +38,7 @@ class Car {
     }
 
     activateNitro() {
-        if (!this.isNitroActive) {  // Si no está ya activo ...
+        if (!this.isNitroActive) {  // If it's not active
             this.isNitroActive = true; 
             this.vy += this.nitroSpeed;  
 
@@ -67,19 +67,19 @@ class Car {
         this.y -= this.vy;
         this.x -= this.vx;
 
-        // Límites del canvas para el movimiento vertical
+        // Limits in the canvas for the vertical movement
         if (this.y < 0) {
-            this.y = 0; // No permitir que el coche salga por la parte superior
+            this.y = 0; // Do not allow the car to exit the top of the canvas
         }
 
-        // Límites del canvas para el movimiento horizontal
+        // Limits for the horizontal movement
         if (this.x < 0) {
-            this.x = 0; // Que no salga por la izq
+            this.x = 0; // So it can't exit the left of the canvas
         } else if (this.x + this.carWidth > this.ctx.canvas.width) {
-            this.x = this.ctx.canvas.width - this.carWidth; // Que no salga por la derecha
+            this.x = this.ctx.canvas.width - this.carWidth; // So it can't exit the right of the canvas
         }
 
-        // Límites en la dirección vertical abajo
+        // Limits in the canvas for the vertical movement down the canvas
         if (this.y + this.carHeight > this.ctx.canvas.height) {
             this.y = this.ctx.canvas.height - this.carHeight; 
         }
@@ -103,7 +103,7 @@ class Car {
         for (let i = 0; i < this.lives - 1; i++) {
             this.ctx.drawImage(
                 this.heartImg,
-                heartX + i * (heartWidth + 30),  // 30-25=5 para poner distancia entre los corazones 
+                heartX + i * (heartWidth + 30),  // 30-25=5 for the gap between hearts 
                 heartY,
                 heartWidth,
                 heartHeight
@@ -158,8 +158,8 @@ class Car {
         return colX && colY;
     }
 
-    isOffRoad(calzadaOffset, calzadaWidth) {
-        return this.x < calzadaOffset || this.x + this.carWidth > calzadaOffset + calzadaWidth;
+    isOffRoad(roadOffset, roadWidth) {
+        return this.x < roadOffset || this.x + this.carWidth > roadOffset + roadWidth;
     }
 
     resetPosition() {

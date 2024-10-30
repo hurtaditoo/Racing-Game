@@ -31,7 +31,7 @@ class Obstacle {
     }
 
     isVisible() {
-      return this.y < this.ctx.canvas.height; // Para que diga solo false cuando ya se ha ido por la izq, de lo contrario se carga los recien creados
+      return this.y < this.ctx.canvas.height; // So it is false when they disappear of the screen
     }
 
 }
