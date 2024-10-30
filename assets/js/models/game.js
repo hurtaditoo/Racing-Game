@@ -7,8 +7,7 @@ class Game {
 
         this.level = 1;
         this.score = 0;
-        this.startTime = Date.now();
-        this.levelDuration = 60000; // 1 min en ms
+        this.levelDuration = 30000; // 30s en ms
 
         this.obstacles = [];
         this.calzadaWidth = this.ctx.canvas.width * 0.6; 
@@ -25,24 +24,37 @@ class Game {
         this.currentVehicleIndex = 0; 
 
         this.audio = new Audio("assets/audio/car-theme.mp3");
-        this.audio.volume = 0.04;
+        this.audio.volume = 0.02;
 
         this.lastTimeIncreased = Date.now();
 
         this.levelUpAudio = new Audio("assets/audio/level-up.mp3");
-        this.levelUpAudio.volume = 0.25;
+        this.levelUpAudio.volume = 0.1;
 
         this.isPaused = false;
 
         this.restartBtn = document.getElementById('restartBtn');
         this.playPauseBtn = document.getElementById('play-pauseBtn');
+        this.controlsBtn = document.getElementById('controlsBtn');
 
+        this.controlsImage = new Image("assets/images/controls.png");
+        this.controlsImage.onload = () => {
+            this.controlsImageLoaded = true;
+        };
+        this.showingControls = false;
+
+        this.selectedAudio = new Audio('assets/audio/selected.wav');
+        this.selectedAudio.volume = 0.1;
+
+        this.arrayScores = window.localStorage.getItem('scores') ? JSON.parse(window.localStorage.getItem('scores')) : [];
+        
         this.setListeners();
 
     }
 
     start() {
-        this.audio.play();        
+        this.audio.play();  
+        this.startTime = Date.now();      
 
         this.interval = setInterval(() => {
             
@@ -218,8 +230,7 @@ class Game {
           this.ctx.drawImage(gameOverLogo, centerX, centerY, desiredWidth, desiredHeight);
         };
 
-        // this.saveScore();
-        // this.displayRankings();
+        this.saveScore();
 
     }
 
@@ -263,14 +274,14 @@ class Game {
         const playPauseBtnContainer = document.querySelector('.button-container');
         const restartBtnContainer = document.querySelector('.restartBtn-container');
 
-        const rightEdge = this.ctx.canvas.width + 620; 
+        const rightEdge = this.ctx.canvas.width + this.calzadaWidth + 63; 
 
         playPauseBtnContainer.style.position = 'absolute';
-        playPauseBtnContainer.style.top = `90px`;
+        playPauseBtnContainer.style.top = `94px`;
         playPauseBtnContainer.style.left = `${rightEdge}px`;
 
         restartBtnContainer.style.position = 'absolute';
-        restartBtnContainer.style.top = `90px`;
+        restartBtnContainer.style.top = `94px`;
         restartBtnContainer.style.left = `${rightEdge - 47}px`;
     };
 
@@ -280,7 +291,17 @@ class Game {
         this.ctx.fillText(`Score: ${this.score}`, 25, this.background.h - 25); // Draw score on top-left
     }
 
-    draw() {    
+    saveScore() {
+        if (this.score > 10) {  
+            this.arrayScores.push(this.score);
+            this.arrayScores.sort((a, b) => b - a);  // De mayor a menor
+
+            this.arrayScores = this.arrayScores.slice(0, 10);   // Por memoria, almacena solo los 10 más altos
+            window.localStorage.setItem('scores', JSON.stringify(this.arrayScores));
+        }
+    }
+
+    draw() {
         this.background.draw();
         this.obstacles.forEach((e) => e.draw());
 
@@ -302,6 +323,8 @@ class Game {
         }
 
         this.drawScore();
+        this.drawControls();
+
     }
 
     move() {
@@ -318,6 +341,26 @@ class Game {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
     }
 
+    toggleControls() {
+        this.showingControls = !this.showingControls;
+
+        if (this.showingControls) {
+            this.selectedAudio.play();
+        }
+    }
+
+    drawControls() {
+        if (this.showingControls && this.controlsImageLoaded) {
+            const imgWidth = 600;
+            const imgHeight = 400;
+            
+            const centerX = (this.ctx.canvas.width - imgWidth) / 2;
+            const centerY = (this.ctx.canvas.height - imgHeight) / 2;
+            
+            this.ctx.drawImage(this.controlsImage, centerX, centerY, imgWidth, imgHeight);
+        }
+    }
+
     setListeners() {    
         document.addEventListener('keydown', (event) => {
             this.car.onKeyDown(event.keyCode);
@@ -328,6 +371,8 @@ class Game {
         });
 
         this.restartBtn.addEventListener('click', () => this.restartBtnMethod());
+
+        this.controlsBtn.addEventListener('click', () => this.toggleControls());
     }
 
 }

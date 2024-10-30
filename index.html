@@ -14,9 +14,9 @@
 <body>
     <div class="start-screen" id="start-screen" width="1200" height="1200">
         <img src="assets/images/mini-game.png" alt="Start Screen" class="screen" width="1200" height="1200">   
-        <button class="startBtn" id="startBtn">Start</button>
-        <button class="rankingBtn" id="rankingBtn">Ranking</button>
-        <button class="controlsBtn" id="controlsBtn">Controls</button>
+        <button class="startBtn" id="startBtn">START</button>
+        <button class="rankingBtn" id="rankingBtn">RANKING</button>
+        <button class="controlsBtn" id="controlsBtn">CONTROLS</button>
     </div>
 
     <i id="play-pauseBtn" class="button-container">
@@ -35,8 +35,9 @@
             <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
         </svg>
     </i>
-
-    <canvas id="canvas" width="1200" height="1200"></canvas>  
+    <div id="game-container">
+        <canvas id="canvas" width="1200" height="1200"></canvas>
+    </div>
     <script src="assets/js/constants.js"></script>
     <script src="assets/js/models/background.js"></script>
     <script src="assets/js/models/obstacle.js"></script>

@@ -29,8 +29,9 @@ html, body {
 .start-screen {
     position: fixed;
     display: flex;
+    align-content: center;
     z-index: 15;
-    /* overflow: hidden; */
+    background-size: cover;
 }
 
 .screen {
@@ -39,12 +40,13 @@ html, body {
 }
 
 .startBtn {
+    font-family: "Press Start 2P";
     position: absolute;
     top: 76.1%;  
     left: 50%; 
     transform: translate(-50%, -50%);
-    padding: 16px 63px;
-    font-size: 30px;
+    padding: 21px 44px;
+    font-size: 20px;
     background-color: #f39c12;
     color: white;
     border: none;
@@ -54,31 +56,50 @@ html, body {
 }
 
 .rankingBtn {
+    font-family: "Press Start 2P";
     position: absolute;
     top: 83%;  
     left: 71.5%; 
     transform: translate(-50%, -50%);
-    padding: 10px 16px;
-    font-size: 20px;
-    background-color: #f39c12;
-    color: white;
-    border: none;
-    border-radius: 5px; 
-    cursor: pointer !important;
-    z-index: 1;
-}
-
-.controlsBtn {
-    position: absolute;
-    top: 83%;  
-    left: 28.5%; 
-    transform: translate(-50%, -50%);
-    padding: 10px 16px;
-    font-size: 20px;
+    padding: 15px 8px;
+    font-size: 13px;
     background-color: #f39c12;
     color: white;
     border: none;
     border-radius: 8px; 
     cursor: pointer !important;
     z-index: 1;
+}
+
+.controlsBtn {
+    font-family: "Press Start 2P";
+    position: absolute;
+    top: 83%;  
+    left: 28.5%; 
+    transform: translate(-50%, -50%);
+    padding: 15px 1px;
+    font-size: 13px;
+    background-color: #f39c12;
+    color: white;
+    border: none;
+    border-radius: 8px; 
+    cursor: pointer !important;
+    z-index: 1;
+}
+
+#game-container {
+    position: relative;
+    width: 100vw; 
+    height: 100vh; 
+    background-image: url('../images/vintage.jpg'); 
+    background-size: cover; 
+    background-position: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#canvas {
+    border: 1px solid black;
+    background-color: transparent; 
 }
