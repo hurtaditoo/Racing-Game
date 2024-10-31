@@ -35,16 +35,15 @@ class Game {
 
         this.restartBtn = document.getElementById('restartBtn');
         this.playPauseBtn = document.getElementById('play-pauseBtn');
-        this.controlsBtn = document.getElementById('controlsBtn');
 
-        this.controlsImage = new Image("assets/images/controls.png");
-        this.controlsImage.onload = () => {
-            this.controlsImageLoaded = true;
-        };
-        this.showingControls = false;
+        // this.controlsImage = new Image();
+        // this.controlsImage.src = "assets/images/controls.png";
+        // this.controlsImage.onload = () => {
+        //     this.controlsImageLoaded = true;
+        // };
 
-        this.selectedAudio = new Audio('assets/audio/selected.wav');
-        this.selectedAudio.volume = 0.1;
+        // this.selectedAudio = new Audio('assets/audio/selected.wav');
+        // this.selectedAudio.volume = 0.05;
 
         this.arrayScores = window.localStorage.getItem('scores') ? JSON.parse(window.localStorage.getItem('scores')) : [];
         
@@ -322,8 +321,6 @@ class Game {
         }
 
         this.drawScore();
-        this.drawControls();
-
     }
 
     move() {
@@ -340,25 +337,25 @@ class Game {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height); 
     }
 
-    toggleControls() {
-        this.showingControls = !this.showingControls;
+    // toggleControls() {
+    //     this.showingControls = !this.showingControls;
 
-        if (this.showingControls) {
-            this.selectedAudio.play();
-        }
-    }
+    //     if (this.showingControls) {
+    //         this.selectedAudio.play();
+    //     }
+    // }
 
-    drawControls() {
-        if (this.showingControls && this.controlsImageLoaded) {
-            const imgWidth = 600;
-            const imgHeight = 400;
+    // drawControls() {
+    //     if (this.showingControls && this.controlsImageLoaded) {
+    //         const imgWidth = 1000;
+    //         const imgHeight = 600;
             
-            const centerX = (this.ctx.canvas.width - imgWidth) / 2;
-            const centerY = (this.ctx.canvas.height - imgHeight) / 2;
+    //         const centerX = (this.ctx.canvas.width - imgWidth) / 2;
+    //         const centerY = (this.ctx.canvas.height - imgHeight) / 2;
             
-            this.ctx.drawImage(this.controlsImage, centerX, centerY, imgWidth, imgHeight);
-        }
-    }
+    //         this.ctx.drawImage(this.controlsImage, centerX, centerY, imgWidth, imgHeight);
+    //     }
+    // }
 
     setListeners() {
         document.addEventListener('keydown', (event) => {
@@ -371,7 +368,7 @@ class Game {
 
         this.restartBtn.addEventListener('click', () => this.restartBtnMethod());
 
-        this.controlsBtn.addEventListener('click', () => this.toggleControls());
+        // this.controlsBtn.addEventListener('click', () => this.toggleControls());
     }
 
 }
