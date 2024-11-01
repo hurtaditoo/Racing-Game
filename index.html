@@ -19,6 +19,10 @@
         <button class="controlsBtn" id="controlsBtn">CONTROLS</button>
     </div>
 
+    <div id="controls-overlay">
+        <img src="assets/images/controls.png" alt="CONTROLS" width="1200" height="600">
+    </div>
+
     <i id="play-pauseBtn" class="button-container">
         <svg id="pause-logo" xmlns="http://www.w3.org/2000/svg" width="45" height="45" fill="currentColor" viewBox="0 0 16 16">
             <path d="M6 3.5a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5m4 0a.5.5 0 0 1 .5.5v8a.5.5 0 0 1-1 0V4a.5.5 0 0 1 .5-.5"/>
@@ -35,9 +39,35 @@
             <path fill-rule="evenodd" d="M8 3c-1.552 0-2.94.707-3.857 1.818a.5.5 0 1 1-.771-.636A6.002 6.002 0 0 1 13.917 7H12.9A5 5 0 0 0 8 3M3.1 9a5.002 5.002 0 0 0 8.757 2.182.5.5 0 1 1 .771.636A6.002 6.002 0 0 1 2.083 9z"/>
         </svg>
     </i>
+    
     <div id="game-container">
         <canvas id="canvas" width="1200" height="1200"></canvas>
+        
+        <input type="checkbox" id="checkboxInput" />
+        <label for="checkboxInput" class="toggleSwitch">
+            <div class="speaker">
+                <svg xmlns="http://www.w3.org/2000/svg" version="1.0" viewBox="0 0 75 75">
+                    <path d="M39.389,13.769 L22.235,28.606 L6,28.606 L6,47.699 L21.989,47.699 L39.389,62.75 L39.389,13.769z"
+                            style="stroke:#fff;stroke-width:5;stroke-linejoin:round;fill:#fff;">
+                    </path>
+                    <path d="M48,27.6a19.5,19.5 0 0 1 0,21.4M55.1,20.5a30,30 0 0 1 0,35.6M61.6,14a38.8,38.8 0 0 1 0,48.6"
+                            style="fill:none;stroke:#fff;stroke-width:5;stroke-linecap:round">
+                    </path>
+                </svg>
+            </div>
+            <div class="mute-speaker">
+                <svg version="1.0" viewBox="0 0 75 75" stroke="#fff" stroke-width="5">
+                    <path d="m39,14-17,15H6V48H22l17,15z" fill="#fff" stroke-linejoin="round"></path>
+                    <path d="m49,26 20,24m0-24-20,24" fill="#fff" stroke-linecap="round"></path>
+                </svg>
+            </div>
+        </label>
+
+        <div class="coolinput">
+            <input type="text" placeholder="Write here..." name="input" class="input" id="player-name">
+        </div>
     </div>
+
     <script src="assets/js/constants.js"></script>
     <script src="assets/js/models/background.js"></script>
     <script src="assets/js/models/obstacle.js"></script>

@@ -14,7 +14,7 @@ class Car {
 
         this.img.onload = () => {
             this.x = this.ctx.canvas.width / 2 - this.carWidth / 2;  // So the car is centered horizontally
-            this.y = this.ctx.canvas.height - this.carHeight;  // Ubicates the car at the bottom of the canvas
+            this.y = this.ctx.canvas.height - this.carHeight;  // Pose the car at the bottom of the canvas
         };
 
         this.vx = 0;   

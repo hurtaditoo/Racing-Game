@@ -1,9 +1,5 @@
-const showingControls = false;
-const controlsImage = new Image();
-controlsImage.src = "assets/images/controls.png";
-// controlsImage.onload = () => {
-//     controlsImageLoaded = true;
-// };
+let showingControls = false;
+let soundEnabled = true;
 
 window.addEventListener('DOMContentLoaded', () => {
 
@@ -14,6 +10,8 @@ window.addEventListener('DOMContentLoaded', () => {
 
     const startScreen = document.getElementById('start-screen');
     const startBtn = document.getElementById('startBtn');
+    const soundToggle = document.getElementById('checkboxInput'); 
+    const soundSwitch = document.querySelector('.toggleSwitch'); 
 
     const controlsBtn = document.getElementById('controlsBtn'); 
     selectedAudio = new Audio('assets/audio/selected.wav');
@@ -22,12 +20,25 @@ window.addEventListener('DOMContentLoaded', () => {
     startBtn.addEventListener('click', () => {
         startScreen.style.display = 'none'; // Hide the start screen
         canvas.style.display = 'block'; // Show the canvas
-        selectedAudio.play();
+        soundSwitch.style.display = 'flex'; // Show the sound switch
+        if (soundEnabled) {
+            selectedAudio.play();
+        }
         game.start();
+    });
+
+    soundToggle.addEventListener('change', () => {
+        soundEnabled = soundToggle.checked; 
+        game.toggleSound();
     });
 
     controlsBtn.addEventListener('click', () => {
         toggleControls();
+    });
+
+    rankingBtn.addEventListener('click', () => {
+        selectedAudio.play();
+        game.showRanking();
     });
 
     const playPauseBtn = document.getElementById('play-pauseBtn');
@@ -43,26 +54,12 @@ window.addEventListener('DOMContentLoaded', () => {
 function toggleControls() {
     showingControls = !showingControls;
 
+    const controlsOverlay = document.getElementById("controls-overlay"); 
+
     if (showingControls) {
-        this.selectedAudio.play();
-        const imgWidth = 1000;
-        const imgHeight = 600;
-        
-        const centerX = (this.ctx.canvas.width - imgWidth) / 2;
-        const centerY = (this.ctx.canvas.height - imgHeight) / 2;
-        
-        this.drawImage(this.controlsImage, centerX, centerY, imgWidth, imgHeight)
+        selectedAudio.play();
+        controlsOverlay.style.display = 'block'; 
+    } else {
+        controlsOverlay.style.display = 'none'; 
     }
 }
-
-// drawControls() {
-//     if (this.showingControls && this.controlsImageLoaded) {
-//         const imgWidth = 1000;
-//         const imgHeight = 600;
-        
-//         const centerX = (this.ctx.canvas.width - imgWidth) / 2;
-//         const centerY = (this.ctx.canvas.height - imgHeight) / 2;
-        
-//         this.ctx.drawImage(this.controlsImage, centerX, centerY, imgWidth, imgHeight);
-//     }
-// }

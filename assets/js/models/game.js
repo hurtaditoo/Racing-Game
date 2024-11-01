@@ -24,7 +24,7 @@ class Game {
         this.currentVehicleIndex = 0; 
 
         this.audio = new Audio("assets/audio/car-theme.mp3");
-        this.audio.volume = 0.02;
+        this.audio.volume = 0.01;
 
         this.lastTimeIncreased = Date.now();
 
@@ -36,23 +36,15 @@ class Game {
         this.restartBtn = document.getElementById('restartBtn');
         this.playPauseBtn = document.getElementById('play-pauseBtn');
 
-        // this.controlsImage = new Image();
-        // this.controlsImage.src = "assets/images/controls.png";
-        // this.controlsImage.onload = () => {
-        //     this.controlsImageLoaded = true;
-        // };
-
-        // this.selectedAudio = new Audio('assets/audio/selected.wav');
-        // this.selectedAudio.volume = 0.05;
-
-        this.arrayScores = window.localStorage.getItem('scores') ? JSON.parse(window.localStorage.getItem('scores')) : [];
+        this.arrayScores = localStorage.getItem('scores') ? JSON.parse(localStorage.getItem('scores')) : [];
+        this.playerName = null;
         
         this.setListeners();
 
     }
 
     start() {
-        this.audio.play();  
+        if (soundEnabled) this.audio.play();  
         this.startTime = Date.now();      
 
         this.interval = setInterval(() => {
@@ -82,6 +74,22 @@ class Game {
             }
 
         }, 1000 / 60);
+    }
+
+    toggleSound() {
+        if (this.audio.muted && this.levelUpAudio.muted && this.car.loseLiveSound && this.car.lastLiveSound) {
+            this.audio.muted = false;
+            this.levelUpAudio.muted = false;
+            this.car.loseLiveSound.muted = false;
+            this.car.lastLiveSound.muted = false;
+        } 
+        else {
+            this.audio.muted = true;
+            this.levelUpAudio.muted = true;
+            this.car.loseLiveSound.muted = true;
+            this.car.lastLiveSound.muted = true;
+        }
+
     }
 
     reset() {
@@ -231,6 +239,62 @@ class Game {
         this.saveScore();
 
     }
+    
+    saveScore() {
+        if (!this.playerName.trim()) {
+            this.playerName = document.getElementById('playerName').value;
+        }
+        
+        this.arrayScores = JSON.parse(localStorage.getItem('scores')) || [];
+        this.arrayScores.push({ name: this.playerName, score: this.score });
+        this.arrayScores.sort((a, b) => b.score - a.score);  // From highest to lowest
+        
+        if (this.arrayScores.length > 10) this.arrayScores.pop();
+
+        localStorage.setItem('scores', JSON.stringify(this.arrayScores));
+    }
+
+    showRanking() {
+        const startScreen = document.getElementById('start-screen');
+        if (startScreen) {
+            startScreen.style.display = 'none';
+        }
+        const rankingScreen = document.createElement('div');    // So it creates a new div for using in the ranking screen as the <div ...>
+        rankingScreen.id = 'rankingScreen';
+        rankingScreen.classList.add('.ranking-screen');
+        
+        const rankingTitle = document.createElement('h1');
+        rankingTitle.textContent = 'Top 10 scores';
+        
+        rankingScreen.appendChild(rankingTitle);
+
+        const rankingList = document.createElement('ul');
+        rankingList.style.listStyle = 'none';
+        rankingList.style.padding = '0';
+
+        const scores = JSON.parse(localStorage.getItem('scores')) || [];
+        scores
+            .sort((a, b) => b.score - a.score) // Try later commeting this
+            .slice(0, 10)
+            .forEach((score, index) => {
+                const listItem = document.createElement('li');
+                listItem.textContent = `${index + 1} ${score.name}: ${score.score}`;
+                rankingList.appendChild(listItem);
+            });
+
+        const backButton = document.createElement('button');
+        backButton.textContent = 'Home';
+        backButton.addEventListener(('click'),() => {
+            rankingScreen.style.display = 'none';
+            if (startScreen) {
+                startScreen.style.display = 'block';
+            }
+        });
+        
+        rankingScreen.appendChild(backButton);
+        document.body.appendChild(rankingScreen);
+
+    }
 
     addObstacle() {    
         if (this.tick >= 200) {  
@@ -289,16 +353,6 @@ class Game {
         this.ctx.fillText(`Score: ${this.score}`, 25, this.background.h - 25); // Draw score on top-left
     }
 
-    saveScore() {
-        if (this.score > 10) {  
-            this.arrayScores.push(this.score);
-            this.arrayScores.sort((a, b) => b - a);  // From highest to lowest
-
-            this.arrayScores = this.arrayScores.slice(0, 10);   // Keep only the top 10 scores
-            window.localStorage.setItem('scores', JSON.stringify(this.arrayScores));
-        }
-    }
-
     draw() {
         this.background.draw();
         this.obstacles.forEach((e) => e.draw());
@@ -337,26 +391,6 @@ class Game {
         this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height); 
     }
 
-    // toggleControls() {
-    //     this.showingControls = !this.showingControls;
-
-    //     if (this.showingControls) {
-    //         this.selectedAudio.play();
-    //     }
-    // }
-
-    // drawControls() {
-    //     if (this.showingControls && this.controlsImageLoaded) {
-    //         const imgWidth = 1000;
-    //         const imgHeight = 600;
-            
-    //         const centerX = (this.ctx.canvas.width - imgWidth) / 2;
-    //         const centerY = (this.ctx.canvas.height - imgHeight) / 2;
-            
-    //         this.ctx.drawImage(this.controlsImage, centerX, centerY, imgWidth, imgHeight);
-    //     }
-    // }
-
     setListeners() {
         document.addEventListener('keydown', (event) => {
             this.car.onKeyDown(event.keyCode);
@@ -367,8 +401,6 @@ class Game {
         });
 
         this.restartBtn.addEventListener('click', () => this.restartBtnMethod());
-
-        // this.controlsBtn.addEventListener('click', () => this.toggleControls());
     }
 
 }

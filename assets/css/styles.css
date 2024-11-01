@@ -12,6 +12,10 @@ canvas {
     z-index: 10; /* Makes sure that is above the canvas */
 }
 
+#play-logo {
+    display: none;
+}
+
 html, body {
     height: 100%;
     margin: 0;
@@ -102,4 +106,150 @@ html, body {
 #canvas {
     border: 1px solid black;
     background-color: transparent; 
+}
+
+#controls-overlay {
+    display: none; 
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 20; 
+}
+
+/* The switch - the box around the speaker*/
+.toggleSwitch {
+    width: 50px;
+    height: 50px;
+    position: absolute;
+    display: none;
+    align-items: center;
+    align-content: flex-end;
+    justify-content: center;
+    background-color: green;
+    border-radius: 50%;
+    cursor: pointer;
+    transition-duration: 0.2s;
+    overflow: hidden;
+    top: 1210px; 
+    left: 1965px;
+    /* Magic numbers I know, but I could not find the way to adjust this, because I find this switch surfing the web */
+}
+  
+/* Hide default HTML checkbox */
+#checkboxInput {
+    display: none;
+}
+  
+.bell {
+    width: 18px;
+}
+  
+.bell path {
+    fill: white;
+}
+  
+.speaker {
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 2;
+    transition-duration: 0.3s;
+}
+  
+.speaker svg {
+    width: 18px;
+}
+  
+.mute-speaker {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    z-index: 3;
+    transition-duration: 0.3s;
+}
+  
+.mute-speaker svg {
+    width: 18px;
+}
+  
+#checkboxInput:checked + .toggleSwitch .speaker {
+    opacity: 0;
+    transition-duration: 0.3s;
+}
+  
+#checkboxInput:checked + .toggleSwitch .mute-speaker {
+    opacity: 1;
+    transition-duration: 0.3s;
+    background-color: red;
+}
+  
+#checkboxInput:active + .toggleSwitch {
+    transform: scale(0.7);
+}
+  
+#checkboxInput:hover + .toggleSwitch {
+    background-color: hsl(117, 84%, 30%);
+}  
+
+.coolinput {
+    display: flex;
+    flex-direction: column;
+    width: fit-content;
+    position: static;
+    max-width: 240px;
+}
+  
+.coolinput label.text {
+    font-size: 0.75rem;
+    color: #818CF8;
+    font-weight: 700;
+    position: relative;
+    top: 0.5rem;
+    margin: 0 0 0 7px;
+    padding: 0 3px;
+    background: #e8e8e8;
+    width: fit-content;
+}
+  
+.coolinput input[type=text].input {
+    padding: 11px 10px;
+    font-size: 0.75rem;
+    border: 2px #818CF8 solid;
+    border-radius: 5px;
+    background: #e8e8e8;
+}
+  
+.coolinput input[type=text].input:focus {
+    outline: none;
+}
+
+.ranking-screen {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.9);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: #ffffff;
+}
+
+.back-button {
+    margin-top: 20px;
+    padding: 10px 20px;
+    font-family: 'Press Start 2P', cursive;
+    background-color: #ffd700;
+    color: #000;
+    border: none;
+    cursor: pointer;
 }
