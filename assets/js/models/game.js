@@ -38,7 +38,6 @@ class Game {
 
         this.arrayScores = localStorage.getItem('scores') ? JSON.parse(localStorage.getItem('scores')) : [];
         
-        this.nameInput = document.getElementById('player-name');
         this.coolInputDiv = document.querySelector('.coolinput');
         this.playerName = null;
 
@@ -249,15 +248,16 @@ class Game {
     
     saveScore() {
         if (!this.playerName.trim()) {
-            this.playerName = document.getElementById('playerName').value.trim();
+            this.playerName = document.getElementById('player-name').value.trim();
         }
-        if (!this.playerName) return;
+        if (!this.playerName || this.score === undefined || this.score === null) return;
         
         this.arrayScores = JSON.parse(localStorage.getItem('scores')) || [];
         this.arrayScores.push({ name: this.playerName, score: this.score });
 
         this.arrayScores.sort((a, b) => b.score - a.score);  // From highest to lowest
-        if (this.arrayScores.length > 10) this.arrayScores.pop();
+        // if (this.arrayScores.length > 10) this.arrayScores = this.arrayScores.slice(0, 10);
+        this.arrayScores = this.arrayScores.slice(0, 10);
 
         localStorage.setItem('scores', JSON.stringify(this.arrayScores));
     }
