@@ -13,8 +13,10 @@ window.addEventListener('DOMContentLoaded', () => {
     const soundToggle = document.getElementById('checkboxInput'); 
     const soundSwitch = document.querySelector('.toggleSwitch'); 
     const playPauseBtn = document.getElementById('play-pauseBtn');
-
     const controlsBtn = document.getElementById('controlsBtn'); 
+    const rankingBtn = document.getElementById('rankingBtn');
+    const coolInputDiv = document.querySelector('.coolinput');
+
     selectedAudio = new Audio('assets/audio/selected.wav');
     selectedAudio.volume = 0.05;
 
@@ -36,8 +38,6 @@ window.addEventListener('DOMContentLoaded', () => {
     controlsBtn.addEventListener('click', () => {
         toggleControls();
     });
-
-    const coolInputDiv = document.querySelector('.coolinput');
 
     rankingBtn.addEventListener('click', () => {
         selectedAudio.play();

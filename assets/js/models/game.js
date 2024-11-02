@@ -264,47 +264,86 @@ class Game {
 
     showRanking() {
         const startScreen = document.getElementById('start-screen');
-        if (startScreen) {
-            startScreen.style.display = 'none';
-        }
+        const playPauseBtn = document.getElementById('play-pauseBtn');
+        const restartBtn = document.getElementById('restartBtn');
 
-        const rankingScreen = document.createElement('div');    // So it creates a new div for using in the ranking screen as the <div ...>
-        rankingScreen.id = 'rankingScreen';
-        rankingScreen.classList.add('.ranking-screen');
-        
-        const rankingTitle = document.createElement('h1');
-        rankingTitle.textContent = 'Top 10 scores';
-        rankingScreen.appendChild(rankingTitle);
+        // Hide the play and restart buttons and the start screen
+        if (playPauseBtn) playPauseBtn.style.display = 'none';
+        if (restartBtn) restartBtn.style.display = 'none';
+        if (startScreen) startScreen.style.display = 'none';
 
-        const rankingList = document.createElement('ul');
-        rankingList.style.listStyle = 'none';
-        rankingList.style.padding = '0';
+        // Cleanup 
+        this.ctx.clearRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
 
+        // Semi-transparent fill for the ranking background
+        this.ctx.fillStyle = "rgba(0, 0, 0, 0.2)"; // Black background with 20% opacity
+        this.ctx.fillRect(0, 0, this.ctx.canvas.width, this.ctx.canvas.height);
+
+        // Shadow configuration
+        this.ctx.shadowColor = "black";
+        this.ctx.shadowBlur = 4;    // Amount of blur
+        this.ctx.shadowOffsetX = 2; // Horizontal offset of the shadow effect
+        this.ctx.shadowOffsetY = 2; // Vertical offset of the shadow effect
+
+        // Ranking Title
+        this.ctx.font = "40px 'Press Start 2P'";
+        this.ctx.fillStyle = "#ffd700";
+        this.ctx.textAlign = "center";
+        this.ctx.fillText("Top 10 Scores", this.ctx.canvas.width / 2, 100); // Positioned 100 px from the top
+
+        // Gets the scores from local storage
         const scores = JSON.parse(localStorage.getItem('scores')) || [];
+
+        // Show the best 10 scores
+        this.ctx.font = "30px 'Press Start 2P'";
         scores
-            .sort((a, b) => b.score - a.score) // Try later commeting this
+            .sort((a, b) => b.score - a.score)
             .slice(0, 10)
             .forEach((score, index) => {
-                const listItem = document.createElement('li');
-                listItem.textContent = `${index + 1}. ${score.name}: ${score.score}`;
-                rankingList.appendChild(listItem);
-            });
-
-        const backButton = document.createElement('button');
-        backButton.classList.add('back-button');
-        backButton.textContent = 'Home';
-
-        backButton.addEventListener(('click'),() => {
-            rankingScreen.style.display = 'none';
-            if (startScreen) {
-                startScreen.style.display = 'block';
-            }
+                this.ctx.fillText(
+                    `${index + 1}. ${score.name}: ${score.score}`,
+                    this.ctx.canvas.width / 2,
+                    220 + index * 90    // 90px spacing for each score, y starting at 220 
+                );
         });
-        
-        rankingScreen.appendChild(rankingList); 
-        rankingScreen.appendChild(backButton);
-        document.body.appendChild(rankingScreen);
 
+        // Draw the home button
+        const buttonX = this.ctx.canvas.width / 2 - 100;  
+        const buttonY = this.ctx.canvas.height - 100;     
+        const buttonWidth = 200;
+        const buttonHeight = 50;
+
+        // Disable shadow before drawing the button
+        this.ctx.shadowColor = "transparent";
+        this.ctx.shadowBlur = 0;
+
+        // Draw the rectangle of the button
+        this.ctx.fillStyle = "#ffd700";
+        this.ctx.fillRect(buttonX, buttonY, buttonWidth, buttonHeight);
+
+        this.ctx.font = "20px 'Press Start 2P'";
+        this.ctx.fillStyle = "#000";
+        this.ctx.textAlign = "center";
+        this.ctx.textBaseline = "middle"; // Vertically centered alignment
+        this.ctx.fillText("Home", buttonX + buttonWidth / 2, buttonY + buttonHeight / 2);
+
+        const handleClick = (event) => {
+            const rect = this.ctx.canvas.getBoundingClientRect();   // getBoundingClientRect() gets the position and size of the canvas
+            const x = event.clientX - rect.left;
+            const y = event.clientY - rect.top;
+
+            if (x > buttonX && x < buttonX + buttonWidth && y > buttonY && y < buttonY + buttonHeight) {
+                // Clear the ranking and return to the start screen
+                this.clear();
+                if (startScreen) {
+                    startScreen.style.display = 'block';
+                }
+                // Remove the event listener after returning to the start screen
+                this.ctx.canvas.removeEventListener('click', handleClick);
+            }
+        };
+
+        this.ctx.canvas.addEventListener('click', handleClick);
     }
 
     addObstacle() {    
@@ -356,7 +395,7 @@ class Game {
         restartBtnContainer.style.position = 'absolute';
         restartBtnContainer.style.top = `89px`;
         restartBtnContainer.style.left = `${rightEdge - 47}px`;
-    };
+    }
 
     drawScore() {
         this.ctx.font = "16px 'Press Start 2P'";
