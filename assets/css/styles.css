@@ -131,8 +131,8 @@ html, body {
     cursor: pointer;
     transition-duration: 0.2s;
     overflow: hidden;
-    top: 1210px; 
-    left: 1965px;
+    top: 1205px; 
+    left: 1800px;
     /* Magic numbers I know, but I could not find the way to adjust this, because I find this switch surfing the web */
 }
   
@@ -202,8 +202,13 @@ html, body {
     display: flex;
     flex-direction: column;
     width: fit-content;
-    position: static;
+    position: absolute;
     max-width: 240px;
+    top: 55%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 15;
+    align-items: center;
 }
   
 .coolinput label.text {

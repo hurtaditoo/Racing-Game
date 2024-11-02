@@ -37,7 +37,14 @@ class Game {
         this.playPauseBtn = document.getElementById('play-pauseBtn');
 
         this.arrayScores = localStorage.getItem('scores') ? JSON.parse(localStorage.getItem('scores')) : [];
+        
+        this.nameInput = document.getElementById('player-name');
+        this.coolInputDiv = document.querySelector('.coolinput');
         this.playerName = null;
+
+        if (!this.playerName) {
+            this.coolInputDiv.style.display = 'flex';
+        }
         
         this.setListeners();
 
@@ -242,13 +249,14 @@ class Game {
     
     saveScore() {
         if (!this.playerName.trim()) {
-            this.playerName = document.getElementById('playerName').value;
+            this.playerName = document.getElementById('playerName').value.trim();
         }
+        if (!this.playerName) return;
         
         this.arrayScores = JSON.parse(localStorage.getItem('scores')) || [];
         this.arrayScores.push({ name: this.playerName, score: this.score });
+
         this.arrayScores.sort((a, b) => b.score - a.score);  // From highest to lowest
-        
         if (this.arrayScores.length > 10) this.arrayScores.pop();
 
         localStorage.setItem('scores', JSON.stringify(this.arrayScores));
@@ -259,13 +267,13 @@ class Game {
         if (startScreen) {
             startScreen.style.display = 'none';
         }
+
         const rankingScreen = document.createElement('div');    // So it creates a new div for using in the ranking screen as the <div ...>
         rankingScreen.id = 'rankingScreen';
         rankingScreen.classList.add('.ranking-screen');
         
         const rankingTitle = document.createElement('h1');
         rankingTitle.textContent = 'Top 10 scores';
-        
         rankingScreen.appendChild(rankingTitle);
 
         const rankingList = document.createElement('ul');
@@ -278,12 +286,14 @@ class Game {
             .slice(0, 10)
             .forEach((score, index) => {
                 const listItem = document.createElement('li');
-                listItem.textContent = `${index + 1} ${score.name}: ${score.score}`;
+                listItem.textContent = `${index + 1}. ${score.name}: ${score.score}`;
                 rankingList.appendChild(listItem);
             });
 
         const backButton = document.createElement('button');
+        backButton.classList.add('back-button');
         backButton.textContent = 'Home';
+
         backButton.addEventListener(('click'),() => {
             rankingScreen.style.display = 'none';
             if (startScreen) {
@@ -291,6 +301,7 @@ class Game {
             }
         });
         
+        rankingScreen.appendChild(rankingList); 
         rankingScreen.appendChild(backButton);
         document.body.appendChild(rankingScreen);
 
@@ -336,14 +347,14 @@ class Game {
         const playPauseBtnContainer = document.querySelector('.button-container');
         const restartBtnContainer = document.querySelector('.restartBtn-container');
 
-        const rightEdge = this.ctx.canvas.width + this.roadWidth + 63; 
+        const rightEdge = this.ctx.canvas.width + this.roadOffset + 380; 
 
         playPauseBtnContainer.style.position = 'absolute';
-        playPauseBtnContainer.style.top = `94px`;
+        playPauseBtnContainer.style.top = `88px`;
         playPauseBtnContainer.style.left = `${rightEdge}px`;
 
         restartBtnContainer.style.position = 'absolute';
-        restartBtnContainer.style.top = `94px`;
+        restartBtnContainer.style.top = `89px`;
         restartBtnContainer.style.left = `${rightEdge - 47}px`;
     };
 
@@ -401,6 +412,13 @@ class Game {
         });
 
         this.restartBtn.addEventListener('click', () => this.restartBtnMethod());
+
+        this.nameInput.addEventListener('change', (event) => {
+            this.playerName = event.target.value.trim();
+            if (this.playerName) {
+                this.coolInputDiv.style.display = 'none'; 
+            }
+        });
     }
 
 }

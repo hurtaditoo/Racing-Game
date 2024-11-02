@@ -12,6 +12,7 @@ window.addEventListener('DOMContentLoaded', () => {
     const startBtn = document.getElementById('startBtn');
     const soundToggle = document.getElementById('checkboxInput'); 
     const soundSwitch = document.querySelector('.toggleSwitch'); 
+    const playPauseBtn = document.getElementById('play-pauseBtn');
 
     const controlsBtn = document.getElementById('controlsBtn'); 
     selectedAudio = new Audio('assets/audio/selected.wav');
@@ -36,12 +37,13 @@ window.addEventListener('DOMContentLoaded', () => {
         toggleControls();
     });
 
+    const coolInputDiv = document.querySelector('.coolinput');
+
     rankingBtn.addEventListener('click', () => {
         selectedAudio.play();
         game.showRanking();
+        coolInputDiv.style.display = 'none';
     });
-
-    const playPauseBtn = document.getElementById('play-pauseBtn');
 
     playPauseBtn.addEventListener('click', () => {
         game.playPauseBtnMethod();
@@ -53,7 +55,6 @@ window.addEventListener('DOMContentLoaded', () => {
 
 function toggleControls() {
     showingControls = !showingControls;
-
     const controlsOverlay = document.getElementById("controls-overlay"); 
 
     if (showingControls) {
@@ -61,5 +62,6 @@ function toggleControls() {
         controlsOverlay.style.display = 'block'; 
     } else {
         controlsOverlay.style.display = 'none'; 
+        if (!game.playerName) coolInputDiv.style.display = 'flex'; 
     }
 }
