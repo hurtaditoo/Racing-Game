@@ -7,7 +7,7 @@ class Game {
 
         this.level = 1;
         this.score = 0;
-        this.levelDuration = 30000; // 30s in ms
+        this.levelDuration = 25000; // 30s in ms
 
         this.obstacles = [];
         this.roadWidth = this.ctx.canvas.width * 0.6; 
@@ -38,6 +38,7 @@ class Game {
 
         this.arrayScores = localStorage.getItem('scores') ? JSON.parse(localStorage.getItem('scores')) : [];
         
+        this.nameInput = document.getElementById('player-name');
         this.coolInputDiv = document.querySelector('.coolinput');
         this.playerName = null;
 
@@ -126,7 +127,7 @@ class Game {
         const currentTime = Date.now();
         const betweenChanges = currentTime - this.lastTimeIncreased;
 
-        if (betweenChanges >= 15000) {
+        if (betweenChanges >= 10000) {
             this.background.vy += 15;
             this.car.currentSpeed += 15; 
             this.car.nitroSpeed += 10;
@@ -160,7 +161,8 @@ class Game {
 
         if (this.currentVehicleIndex >= VEHICLE_IMAGES.length) {
             this.endGameWinning();
-        } else {
+        } 
+        else {
             const currentLives = this.car.lives;
 
             this.car = new Car(this.ctx, this.currentVehicleIndex);
@@ -453,8 +455,8 @@ class Game {
         this.restartBtn.addEventListener('click', () => this.restartBtnMethod());
 
         this.nameInput.addEventListener('change', (event) => {
-            this.playerName = event.target.value.trim();
-            if (this.playerName) {
+            this.nameInput = event.target.value.trim();
+            if (this.nameInput) {
                 this.coolInputDiv.style.display = 'none'; 
             }
         });
