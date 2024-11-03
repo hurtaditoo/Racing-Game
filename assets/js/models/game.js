@@ -454,7 +454,7 @@ class Game {
 
         this.restartBtn.addEventListener('click', () => this.restartBtnMethod());
 
-        this.nameInput.addEventListener('change', (event) => {
+        this.nameInput.addEventListener('change', (event) => {  // This is used so the input button for the name dissapear once you have written in it
             this.nameInput = event.target.value.trim();
             if (this.nameInput) {
                 this.coolInputDiv.style.display = 'none'; 
