@@ -7,7 +7,7 @@ class Game {
 
         this.level = 1;
         this.score = 0;
-        this.levelDuration = 25000; // 30s in ms
+        this.levelDuration = 60000; // 30s in ms
 
         this.obstacles = [];
         this.roadWidth = this.ctx.canvas.width * 0.6; 
